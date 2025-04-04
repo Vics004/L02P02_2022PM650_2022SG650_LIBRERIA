@@ -10,5 +10,6 @@ namespace L02P02_2022PM650_2022SG650.Models
         public int? id_cliente { get; set; }
         public int? cantidad_libros { get; set; }
         public decimal? total { get; set; }
+        public string? estado { get; set; }
     }
 }
