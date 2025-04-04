@@ -1,0 +1,52 @@
+﻿@{
+    var pedido = ViewData["pedido"] as dynamic;
+    var detalles = ViewData["detalles"] as IEnumerable<dynamic>;
+}
+
+<h1>Venta de Libros</h1>
+<p>Seleccione los libros y posterior ingrese sus datos</p>
+
+<h2>Proceso de venta</h2>
+
+<h3>Datos del Cliente</h3>
+<div class="card mb-4">
+    <div class="card-body">
+        <p><strong>Nombre:</strong> @pedido.cliente.nombre @pedido.cliente.apellido</p>
+        <p><strong>Email:</strong> @pedido.cliente.email</p>
+        <p><strong>Dirección:</strong> @pedido.cliente.direccion</p>
+    </div>
+</div>
+
+<h3>Carrito</h3>
+@foreach (var detalle in detalles)
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">@detalle.nombre</h5>
+            <p class="card-text">@detalle.autor</p>
+            <p class="card-text text-end">$@detalle.precio</p>
+        </div>
+    </div>
+}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Total (USD)</h5>
+        <p class="card-text text-end">$@pedido.total</p>
+        @using (Html.BeginForm("CerrarVenta", "Ventas", FormMethod.Post, new { id = "formCerrarVenta" }))
+        {
+            <input type="hidden" name="idPedido" value="@pedido.id" />
+            <button type="button" class="btn btn-primary" onclick="confirmarCierre()">Cerrar venta</button>
+        }
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function confirmarCierre() {
+                alert('Venta cerrada exitosamente!');
+                document.getElementById('formCerrarVenta').submit();
+
+        }
+    </script>
+}

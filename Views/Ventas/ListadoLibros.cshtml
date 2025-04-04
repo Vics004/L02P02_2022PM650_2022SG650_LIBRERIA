@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Venta de Libros";
+    var listadoLibros = ViewData["listadoLibros"] as IEnumerable<dynamic>;
+    int idPedido = (int)ViewData["idPedido"];
+    decimal total = (decimal)ViewData["total"];
+}
+
+<h1>Venta de Libros</h1>
+<p>Seleccione los libros y posterior ingrese sus datos</p>
+
+<h2>Libros</h2>
+@foreach (var libro in listadoLibros)
+{
+    <div class="card mb-3">
+        <div class="card-body">
+            <h5 class="card-title">@libro.nombre</h5>
+            <p class="card-text">@libro.autor</p>
+            <p class="card-text text-end">$@libro.precio</p>
+            @using (Html.BeginForm("AgregarLibro", "Ventas", FormMethod.Post))
+            {
+                <input type="hidden" name="idPedido" value="@idPedido" />
+                <input type="hidden" name="idLibro" value="@libro.id" />
+                <button type="submit" class="btn btn-success">Agregar</button>
+            }
+        </div>
+    </div>
+}
+
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Total (USD)</h5>
+        <p class="card-text text-end">$@total</p>
+        @Html.ActionLink("Completar", "CierreVenta", new { idPedido }, new { @class = "btn btn-primary" })
+    </div>
+</div>
